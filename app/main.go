@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strconv"
 	// Uncomment this block to pass the first stage!
 	// "os"
 	// "os/exec"
@@ -19,6 +20,14 @@ func main() {
 	command := os.Args[3]
 	args := os.Args[4:len(os.Args)]
 	cmd := exec.Command(command, args...)
+	if args[0] == "exit" {
+		exitCode, err := strconv.Atoi(args[1])
+		if err != nil {
+			fmt.Printf("Err: %v\n", err)
+			os.Exit(1)
+		}
+		os.Exit(exitCode)
+	}
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 	err := cmd.Run()
