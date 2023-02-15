@@ -54,6 +54,9 @@ func main() {
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 	cmd.Stdin = os.Stdin
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Cloneflags: syscall.CLONE_NEWPID | syscall.CLONE_NEWUTS,
+	}
 	err = cmd.Run()
 	if err != nil {
 		if ee, ok := err.(*exec.ExitError); ok {
